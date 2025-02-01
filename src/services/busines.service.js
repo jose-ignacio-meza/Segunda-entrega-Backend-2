@@ -1,10 +1,10 @@
-import Business from '../dao/bussines.dao.js';
-import BusinessRepository from "../repositories/user.repository.js";
+import Business from '../dao/business.dao.js';
+import BusinessRepository from "../repositories/business.repository.js";
 
 const businessDAO = new Business();
 const businessrepositori= new BusinessRepository (businessDAO);
 
-export default class userServices {
+export default class businessServices {
     
     constructor(){
         
@@ -20,13 +20,14 @@ export default class userServices {
         return result;
     }
 
-    async createBusiness (businessData) {
+    async createBusiness(businessData) {
         let result = await businessrepositori.createBusiness(businessData);
         return result;
     }
 
-    async addProduct(){
-        
+    async updateBusiness(bid,business){
+        let result = await businessrepositori.updateBusiness(bid,business);
+        return result;
     }
     
 }

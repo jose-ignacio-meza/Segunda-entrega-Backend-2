@@ -8,7 +8,7 @@ export default class UserRepository {
     }
 
     getUsers = async () => {
-        let result = await this.dao.getUsers();
+        let result = await this.dao.getUsers;
         return result;
     }
 

@@ -6,6 +6,6 @@ const router = Router();
 router.get('/', getUsers);
 router.get('/:uid', getUserById);
 router.post('/', saveUser);
-router.get('/current', dataCurrent);
+router.get('/current', dataCurrent); // Pendiente
 
 export default router;

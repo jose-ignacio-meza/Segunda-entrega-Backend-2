@@ -32,9 +32,9 @@ export default class Business {
         }
     }
 
-    updateBusiness = async (id,order) => {
+    updateBusiness = async (id,products) => {
         try{
-            let result = await businessModel.updateOne({_id:id},{$set:order});
+            let result = await businessModel.updateOne({_id:id},{$set:products});
             return result;
         }catch(error){
             console.log(error);

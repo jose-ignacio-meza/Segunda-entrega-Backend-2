@@ -1,5 +1,5 @@
 import User from '../dao/user.dao.js';
-import UserRepository from "../repositories/business.repository.js";
+import UserRepository from "../repositories/user.repository.js";
 
 const userDAO = new User();
 const userrepositori= new UserRepository (userDAO);

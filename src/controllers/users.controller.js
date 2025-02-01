@@ -1,31 +1,44 @@
-// import User from '../dao/user.dao.js';
-// import UserRepository from '../repositories/user.repository.js';
-// const user = new User();
-// const userRepositorio = new UserRepository (user);
+import { isValidObjectId } from 'mongoose';
 import userService from '../services/user.services.js'
 
 const userservice = new userService();
 
 export const getUsers = async (req, res) => {
-    let result = await userservice.getUser();
-    res.send({status:"success",result})
+    try{
+        let result = await userservice.getUser();
+        res.send({status:"success",result})
+    }catch(error){
+        res.status(500).send("Hubo un error:"+error.message);
+    }
 }
 
 export const getUserById = async (req, res) => {
     const {uid} = req.params;
-    let result = await userservice.getUserById(uid);
-    res.send({status:"success",result})
+    if(!isValidObjectId(uid)){
+        res.status(404).send("El id no es valido");
+    }else{
+        try{
+            let result = await userservice.getUserById(uid);
+            res.send({status:"success",result})
+        }catch(error){
+            res.status(500).send("Hubo un error :"+error.message);
+        }
+    }
 }
 
 export const saveUser = async (req, res) => {
-    const user = req.body; 
-    //Las validaciones quedan para uds
-    try{
-        console.log('llego aca ');
-        let result = await userservice.saveUser(user);
-        res.send({status:"success",result})
-    }catch(error){
-        res.status(500).send('Hubo un error :'+ error.message)
+    const user = req.body;
+    if(!user.name || !user.email){
+        let respuesta = "Se requiere completar el name y email.";
+        res.status(404).send({status: "error", respuesta});
+    }else{
+        try{
+            console.log('llego aca ');
+            let result = await userservice.saveUser(user);
+            res.send({status:"success",result})
+        }catch(error){
+            res.status(500).send('Hubo un error :'+ error.message)
+        }
     }
 }
 
