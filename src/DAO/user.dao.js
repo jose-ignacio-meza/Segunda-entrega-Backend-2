@@ -22,6 +22,16 @@ export default class User {
         }
     }
 
+    getUserByEmail = async (email) => {
+        try{
+            let user = await usersModel.findOne({email:email});
+            return user;
+        }catch(error){
+            console.log(error);
+            return null
+        }
+    }
+
     saveUser = async (user) => {
         try{
             let result = await usersModel.create(user);

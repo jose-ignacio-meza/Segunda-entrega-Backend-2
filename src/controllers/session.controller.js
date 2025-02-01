@@ -1,9 +1,11 @@
-import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js';
+import jwt from 'jsonwebtoken'
 import config from '../configs/config.js'
 import { createHash , isValidPassword } from '../utils.js'
 import { cookieExtractor } from '../configs/passport.config.js';
+import userServices from '../services/user.services.js'
 
+const userservice = new userServices();
 export const current =  async (req, res) => {
     try {
         // Extraer el token de las cookies
@@ -55,7 +57,7 @@ export const current =  async (req, res) => {
 export const restorePasword = async (req, res) => {
     const {email, newPassword} = req.body;
     try{
-        const user = await User.findOne({ email: email });
+        const user = await userServices.getUserByEmail(email);
         if (!user) {
             return res.status(400).send({ status: 'error', message: 'User not found' });
         }
@@ -71,11 +73,13 @@ export const restorePasword = async (req, res) => {
 }
 
 export const login = async (req,res) => {
+    
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).send({ status: "error", message: 'Incomplete values'});
+    
     try{
-        const { email, password } = req.body;
-        if (!email || !password) 
-            return res.status(400).send({ status: "error", message: 'Incomplete values'});
-        const user = await User.findOne({email});
+        const user = await userservice.getUserByEmail(email);
+        console.log(user);
         if(!user){
             return res.status(401).send('Usuario no encontrado');
         }
@@ -94,11 +98,13 @@ export const login = async (req,res) => {
 }
 
 export const registrarse = async (req,res) => {
+    
+    const {first_name, last_name, email, age, rol ,password} = req.body;
+    
+    if (!first_name || !last_name || !email || !age|| !rol) 
+        return res.status(400).send({ status: false, message: 'All fields are required' });
+    
     try{
-        const {first_name, last_name, email, age, rol ,password} = req.body;
-        if (!first_name || !last_name || !email || !age|| !rol) 
-            return res.status(400).send({ status: false, message: 'All fields are required' });
-
         let newUser = new User({
             first_name, 
             last_name,

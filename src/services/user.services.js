@@ -20,6 +20,11 @@ export default class userServices {
         return result;
     }
 
+    async getUserByEmail(uemail){
+        let result = await userrepositori.getUserByEmail(uemail);
+        return result;
+    }
+
     async saveUser (userData) {
         let result = await userrepositori.saveUser(userData);
         return result;
