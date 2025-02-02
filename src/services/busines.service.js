@@ -29,5 +29,10 @@ export default class businessServices {
         let result = await businessrepositori.updateBusiness(bid,business);
         return result;
     }
+
+    async deleteProduct(bid,pid,quantity){
+        let result = await businessrepositori.deleteProduct(bid,pid,quantity);
+        return result;
+    }
     
 }

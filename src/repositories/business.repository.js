@@ -26,4 +26,8 @@ export default class BusinessRepository {
         return result;
     }
 
+    deleteProduct= async(bid,pid,quantity)=>{
+        let result = await this.dao.deleteProduct(bid,pid,quantity);
+        return result;
+    }
 }

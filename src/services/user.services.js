@@ -1,4 +1,4 @@
-import User from '../dao/user.dao.js';
+import User from '../DAO/user.dao.js';
 import UserRepository from "../repositories/user.repository.js";
 
 const userDAO = new User();
@@ -22,6 +22,11 @@ export default class userServices {
 
     async getUserByEmail(uemail){
         let result = await userrepositori.getUserByEmail(uemail);
+        return result;
+    }
+
+    async getUserByIdLocal(id){
+        let result = await userrepositori.getUserByIdLocal(id);
         return result;
     }
 

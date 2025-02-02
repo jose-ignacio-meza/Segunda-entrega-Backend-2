@@ -4,7 +4,7 @@ import {current,registrarse,login,restorePasword,cerrarSession} from '../control
 const router = express.Router();
 
 //Current
-router.get('/current/', current);
+router.get('/current', current);
 
 //Registración
 router.post('/register', registrarse)

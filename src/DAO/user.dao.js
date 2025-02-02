@@ -25,6 +25,18 @@ export default class User {
     getUserByEmail = async (email) => {
         try{
             let user = await usersModel.findOne({email:email});
+            if(!user)return null
+            return user;
+        }catch(error){
+            console.log(error);
+            return null
+        }
+    }
+
+    getUserByIdLocal = async (id) => {
+        try{
+            let user = await usersModel.findOne({id:id});
+            if(!user)return null
             return user;
         }catch(error){
             console.log(error);

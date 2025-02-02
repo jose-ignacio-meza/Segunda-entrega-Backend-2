@@ -33,7 +33,6 @@ export const saveUser = async (req, res) => {
         res.status(404).send({status: "error", respuesta});
     }else{
         try{
-            console.log('llego aca ');
             let result = await userservice.saveUser(user);
             res.send({status:"success",result})
         }catch(error){

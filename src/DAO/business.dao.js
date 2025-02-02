@@ -41,5 +41,37 @@ export default class Business {
             return null
         }
     }
+
+    deleteProduct = async (bid,pid,quantity) =>{
+        try {
+            // Buscar el negocio por su ID
+            const business = await businessModel.findById(bid);
+            if (!business) {
+                return { status: 'error', message: 'Negocio no encontrado' };
+            }
+    
+            const productIndex = business.products.findIndex(p => p._id.toString() === pid.toString());
+            if (productIndex === -1) {
+                console.log(`Producto con ID: ${pid} no encontrado`);
+                return { status: 'error', message: 'Producto no encontrado' };
+            }
+    
+            const product = business.products[productIndex];
+
+            // Restar la cantidad especificada
+            product.quantity -= quantity;
+
+            // Si la cantidad del producto es 0 o menos, eliminar el producto del arreglo
+            if (product.quantity <= 0) {
+                business.products.splice(productIndex, 1);
+            }
+    
+            // Guardar los cambios
+            const result = await business.save();
+            return { status: 'success', data: result };
+        } catch (error) {
+            return { status: 'error', message: `Error al eliminar el producto: ${error.message}` };
+        }
+    }
     
 }

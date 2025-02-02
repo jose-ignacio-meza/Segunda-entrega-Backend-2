@@ -20,6 +20,11 @@ export default class UserRepository {
         let result = await this.dao.getUserByEmail(email);
         return result;
     }
+
+    getUserByIdLocal = async (id) => {
+        let result = await this.dao.getUserByIdLocal(id);
+        return result;
+    }
     
     saveUser = async (user) => {
         let userToInsert = new UserDTO(user);

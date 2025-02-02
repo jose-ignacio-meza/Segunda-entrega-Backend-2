@@ -1,4 +1,3 @@
-import express from 'express';
 
 export const isLoggedIn = (req, res, next) => {
     if(req.session.user){
@@ -15,3 +14,13 @@ export const isLoggedOut = (req, res, next) => {
         next(); //Permitir el acceso si no hay sesión
     }
 }
+
+export const authorize = (role) => {
+    //console.log("rol "+role);
+    return (req, res, next) => {
+        if (req.user && req.user.role === role) {
+            return next();
+        }
+        return res.status(403).json({ message: 'Acceso denegado' });
+    };
+};
