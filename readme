@@ -1,0 +1,17 @@
+Entrega Proyecto-Backend-II:
+
+Este proyecto es una entrega final para el curso Bakcend II de CoderHouse.
+En el proyecto se desarrollan los puntos enunciados en las diapositivas de la entrega final:
+    -Se utilizaron las estrategias DAO y repository, asi como service para realizar las negociaciones entre la capas y acceder a la capa de persistencia.
+    -La estrategia current devuelve un objeto DAO el cual no contiene datos sensibles.
+    -Existe un registro para nuevos usuario,(necesario registrarse la primera vez para cargar el usuario a la db), asi como login.
+    -Existen productos en la db, los cuales solo son manipulados por los usuario con rol "admin", se puede realizar un CRUD de ellos.
+    -Existen carts que pueden ser administrados por los usuarios con rol "user", se puede crear, eliminao o catualizar un carro, tambien agregar o quitar un producto en especifico.
+    -Se puede realizar la compra de un cart especifico, lo cual calcula el gasto total, revisa la disponibilidad del stock, y descuenta el stock al realizar la compra.
+    -Por ultimo se imprime un ticket siguiendo el model "ticket.model.js", lo cual nos da todos los datos de la compra.
+
+Todo el proyecto es probado en postman, requiere de acceso de un usuario con rol "user" o "admin" para las distintas rutas.
+Por ende se deben registrar primero y luego poder probar las funcionalidades.
+
+
+Autor-Jose Ignacio Meza

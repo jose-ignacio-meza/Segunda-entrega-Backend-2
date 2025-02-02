@@ -56,24 +56,6 @@ export const current =  async (req, res) => {
     }
 }
 
-export const restorePasword = async (req, res) => {
-    const {email, newPassword} = req.body;
-    try{
-        const user = await userServices.getUserByEmail(email);
-        if (!user) {
-            return res.status(400).send({ status: 'error', message: 'User not found' });
-        }
-
-        user.password = createHash(newPassword);
-        await user.save();
-
-        return res.redirect('/login'); // Redirige a la vista de login
-
-    }catch (error) {
-        return res.status(500).send({ status: 'error', message: 'Internal server error' });
-    }
-}
-
 export const login = async (req,res) => {
     
     const { email, password } = req.body;
@@ -132,6 +114,25 @@ export const registrarse = async (req,res) => {
     }catch(error){
         console.error('Error al registrar usuario:', error);
         res.status(500).send('Error al registrar usuario');
+    }
+}
+
+
+export const restorePasword = async (req, res) => {
+    const {email, newPassword} = req.body;
+    try{
+        const user = await userServices.getUserByEmail(email);
+        if (!user) {
+            return res.status(400).send({ status: 'error', message: 'User not found' });
+        }
+
+        user.password = createHash(newPassword);
+        await user.save();
+
+        return res.redirect('/login'); // Redirige a la vista de login
+
+    }catch (error) {
+        return res.status(500).send({ status: 'error', message: 'Internal server error' });
     }
 }
 

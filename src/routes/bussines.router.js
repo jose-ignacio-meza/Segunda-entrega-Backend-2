@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {getBusiness, getBusinessById, createBusiness, addProduct, deleteProduct} from '../controllers/business.controller.js';
 import {authorize} from '../middlewares/auth.js'
+
 const router = Router();
 
 router.get('/', getBusiness);

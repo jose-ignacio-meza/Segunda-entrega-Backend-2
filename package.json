@@ -20,7 +20,8 @@
     "mongoose": "^8.9.5",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "proyectofinal": "file:"
+    "proyectofinal": "file:",
+    "uuid": "^11.0.5"
   },
   "type": "module"
 }

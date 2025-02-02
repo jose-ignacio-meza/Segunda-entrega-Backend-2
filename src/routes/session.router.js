@@ -3,13 +3,13 @@ import {current,registrarse,login,restorePasword,cerrarSession} from '../control
 
 const router = express.Router();
 
-//Current
+//Current v
 router.get('/current', current);
 
-//Registración
+//Registración v
 router.post('/register', registrarse)
 
-//Iniciar sesión 
+//Iniciar sesión v
 router.post('/login', login)
 
 //Restaurar contraseña

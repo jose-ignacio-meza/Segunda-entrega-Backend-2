@@ -6,6 +6,7 @@ import businessRouter from './routes/bussines.router.js'
 import ordersRouter from './routes/orders.router.js'
 import sessionRouter from './routes/session.router.js'
 import productsRouter from './routes/products.router.js'
+import cartRouter from './routes/cart.router.js'
 import cors from 'cors'
 import session from 'express-session';
 import cookieParser from "cookie-parser";
@@ -36,8 +37,9 @@ app.use(express.urlencoded({extended:true}));
 //Routers
 app.use('/api', sessionRouter);
 app.use('/api/user', usersRouter);
-app.use('/api/products',productsRouter )
+app.use('/api/products',productsRouter );
 app.use('/api/business', businessRouter);
+app.use('/api/cart', cartRouter)
 app.use('/api/order', ordersRouter);
 
 //Variables de entorno
