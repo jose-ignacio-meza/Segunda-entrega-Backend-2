@@ -96,13 +96,13 @@ export const deleteProduct = async (req,res)=>{
         return res.status(404).send({status:"error", error:"Se debe ingresar un numero como cantidad"})
     if(quantity < 1)
         return res.status(404).send({status:"error",message:"El numero de cantidada debe ser 1 o superior"});
-    
-    try{
-        let result = await businessService.deleteProduct(bid,pid,quantity);
-        if(!result)
-            return res.status(404).send({status:"error", message:"No hay un resultado"});
-        return result;
-    }catch(error){
-        return res.status(500).send({status:"error",message:"Error :"+error.message})
+
+     try {
+        let result = await businessService.deleteProduct(bid, pid, quantity);
+        if (result.status === 'error')
+            return res.status(404).send(result);
+        return res.status(200).send(result.data);
+    } catch (error) {
+        return res.status(500).send({ status: "error", message: "Error: " + error.message });
     }
 }
