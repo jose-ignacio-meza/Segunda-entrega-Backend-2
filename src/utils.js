@@ -1,6 +1,9 @@
 import {fileURLToPath} from 'url';
 import { dirname } from 'path';
 import bcrypt from 'bcrypt';
+import config from './configs/config.js';
+import nodemailer from 'nodemailer'
+
 
 //Crear una constante llamada createHash
 //Es una función que recibe un password como argumento y genera:
@@ -19,3 +22,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename)
 
 export default __dirname;
+
+export const senMail= async(mail,tittle,messagehtml) =>{
+    
+    const transport = nodemailer.createTransport({
+        service:'gmail',
+        port:587,
+        auth:{
+            user:'nachomezalk24@gmail.com',
+            pass:config.pwd_mail
+        }
+    })
+    
+    let result = await transport.sendMail({
+        from:'nachomezalk24@gmail.com',
+        to:mail,
+        subject: tittle,
+        html:messagehtml,
+        attachments:[]
+    })
+}
+

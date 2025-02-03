@@ -1,5 +1,6 @@
 import { isValidObjectId } from 'mongoose';
 import CartServices from '../services/cart.services.js';
+import {senMail} from '../utils.js'
 
 const cartService = new CartServices();
 
@@ -114,6 +115,11 @@ export const purchase = async (req, res) => {
         const purchaserEmail = req.user.email; // Asumiendo autenticación
 
         const result = await cartService.purchaseCart(cid, purchaserEmail);
+
+        let tittle='Ticket de compra';
+        let messagehtml=`<div><h1>Gracias por su compra</h1></div>`
+
+        await senMail(purchaserEmail,tittle,messagehtml);
 
         return res.json({
             status: "success",
