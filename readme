@@ -13,5 +13,8 @@ En el proyecto se desarrollan los puntos enunciados en las diapositivas de la en
 Todo el proyecto es probado en postman, requiere de acceso de un usuario con rol "user" o "admin" para las distintas rutas.
 Por ende se deben registrar primero y luego poder probar las funcionalidades.
 
+Al crear un carrito es necesario agregar al menos un producto, se peuden agregar luego mas, siendo el mismo o distintos, si es el mismo se suma, sino se agrega el nuevo,
+al realizar la compra se tama en cuenta el stock, el total y se envia un mail al email registrado del usuario que realiza la compra, a la hora de realizar la compra, se 
+analiza si hay o no stock dejando comprar solo los productos que dispongan de stock y dejando en el cart los cuales no pudieron ser comprados.
 
 Autor-Jose Ignacio Meza

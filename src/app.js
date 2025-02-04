@@ -40,9 +40,7 @@ app.use(express.urlencoded({extended:true}));
 app.use('/api', sessionRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/products',productsRouter );
-//app.use('/api/business', businessRouter);
 app.use('/api/cart', cartRouter)
-//app.use('/api/order', ordersRouter);
 
 //Variables de entorno
 const PORT = config.port;

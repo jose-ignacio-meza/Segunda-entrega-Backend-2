@@ -66,13 +66,10 @@ export const login = async (req,res) => {
         if(!user){
             return res.status(401).send({status:"error", message:"Usuario no encontrado"});
         }
-        
         const isMatch = isValidPassword(user,password);
-        console.log(isMatch);
         if (!isMatch) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
-        console.log(req.session);
         req.session.user = user;
         const userVista= new UserDTO(user);
         let token = jwt.sign( userVista.getUser(user), config.secret_key, { expiresIn : "24h"});

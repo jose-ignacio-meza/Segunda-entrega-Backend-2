@@ -20,7 +20,6 @@ export const addProducts = async (req, res) => {
     if(!product.name || !product.quantity)
         return res.status(404).send({status:"error", message:"El producto debe contar con un nombre y una cantidad"})
     try {
-        console.log("llego aca "+product.code);
         const productExist = await productsservices.getProductByCode(product.code);
         if(!productExist){
             //crerar producto

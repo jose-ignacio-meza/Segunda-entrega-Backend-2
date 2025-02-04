@@ -84,7 +84,9 @@ export default class CartServices {
         if (!cart) {
             throw new Error("Carrito no encontrado");
         }
-
+        if (cart.products.length == 0) {
+            throw new Error("El carrito vacio");
+        }
         let totalAmount = 0;
         let purchasedProducts = [];
         let remainingProducts = [];
@@ -92,7 +94,7 @@ export default class CartServices {
         for (const item of cart.products) {
             const product = item.productId;
             const quantity = item.quantity;
-
+            console.log("stock :"+product.quantity+" compra:"+quantity)
             if (product.quantity >= quantity) {
                 // Descontar stock
                 product.quantity -= quantity;
@@ -104,6 +106,7 @@ export default class CartServices {
                 // Producto sin stock suficiente
                 remainingProducts.push({ productId: product._id, quantity });
             }
+            console.log(remainingProducts);
         }
 
         // Generar ticket si hay productos comprados

@@ -16,7 +16,6 @@ export const isLoggedOut = (req, res, next) => {
 }
 
 export const authorize = (role) => {
-    //console.log("rol "+role);
     return (req, res, next) => {
         if (req.user && req.user.role === role) {
             return next();

@@ -8,7 +8,6 @@ const productService = new productsServices();
 
 export const getCarts = async (req, res) => {
     try {
-        console.log("llegue");
         const result = await cartService.getCarts();
         res.send(result);
     } catch (error) {
@@ -125,7 +124,6 @@ export const purchase = async (req, res) => {
         const purchaserEmail = req.user.email; // Asumiendo autenticación
 
         const result = await cartService.purchaseCart(cid, purchaserEmail);
-
         let ticket= {
             status: "success",
             message: "Compra realizada",
@@ -133,21 +131,23 @@ export const purchase = async (req, res) => {
             remainingProducts: result.remainingProducts
         };
         let tittle='Ticket de compra';
-        let messagehtml=`<div>
-                            <h1>Gracias por su compra</h1>
-                        </div>
-                        <div>
-                            <h2>Total: ${JSON.stringify(result.ticket.amount)}</h2>
-                        </div>`
-        return res.send(messagehtml);          
-        // await senMail(purchaserEmail,tittle,messagehtml);
-
-        // return res.json({
-        //     status: "success",
-        //     message: "Compra realizada",
-        //     ticket: result.ticket || "No se generó ticket, todos los productos estaban sin stock suficiente",
-        //     remainingProducts: result.remainingProducts
-        // });
+        if(result.ticket){
+            let messagehtml=`<div>
+                                <h1>Gracias por su compra</h1>
+                            </div>
+                            <div>
+                                <h2>Total: ${JSON.stringify(result.ticket.amount)}</h2>
+                                <h3>Codigo de compra: ${JSON.stringify(result.ticket.code)}</h3>
+                            </div>`
+            await senMail(purchaserEmail,tittle,messagehtml);
+        }   
+        
+        return res.json({
+            status: "success",
+            message: "Compra finalizada",
+            ticket: result.ticket || "No se generó ticket, todos los productos estaban sin stock suficiente",
+            remainingProducts: result.remainingProducts
+        });
     } catch (error) {
         return res.status(500).json({ status: "error", message: "Error en la compra: " + error.message });
     }

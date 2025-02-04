@@ -89,18 +89,5 @@ export default class CartDAO {
         return await Cart.findByIdAndUpdate(cid, { products: updatedProducts }, { new: true });
     }
     
-    // async updateCart(cartId, updateData) {
-    //     try {
-    //         console.log("Desde el dao : "+updateData)
-    //         const updatedCart = await Cart.findByIdAndUpdate(cartId, updateData, { new: true });
-    //         if (!updatedCart) {
-    //             throw new Error('Cart not found');
-    //         }
-    //         return updatedCart;
-    //     } catch (error) {
-    //         throw new Error('Error updating cart: ' + error.message);
-    //     }
-    // }
-    
 }
 
