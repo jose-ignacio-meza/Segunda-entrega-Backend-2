@@ -14,9 +14,6 @@ export default class CartDAO {
 
     async createCart(cartData) {
         try {
-            for (const p of cartData) {
-                console.log("data del dao "+p.productId);
-            }
             const newCart = new Cart({products:cartData});
             await newCart.save();
             return newCart;
@@ -51,18 +48,7 @@ export default class CartDAO {
         }
     }
 
-    async updateCart(cartId, updateData) {
-        try {
-            const updatedCart = await Cart.findByIdAndUpdate(cartId, updateData, { new: true });
-            if (!updatedCart) {
-                throw new Error('Cart not found');
-            }
-            return updatedCart;
-        } catch (error) {
-            throw new Error('Error updating cart: ' + error.message);
-        }
-    }
-
+    
     async deleteCart(cid) {
         try {
             const deletedCart = await Cart.findByIdAndDelete(cid);
@@ -74,7 +60,7 @@ export default class CartDAO {
             throw new Error('Error deleting cart: ' + error.message);
         }
     }
-
+    
     async removeItemFromCart(cid, pid) {
         try {
             const cart = await Cart.findById(cid);
@@ -83,7 +69,7 @@ export default class CartDAO {
             }
             // Convertir pid a ObjectId
             const objectIdPid = new mongoose.Types.ObjectId(pid);
-
+            
             // Filtrar correctamente los productos
             cart.products = cart.products.filter(product => 
                 !product.productId.equals(objectIdPid)  // Comparación correcta
@@ -94,16 +80,27 @@ export default class CartDAO {
             throw new Error('Error removing item from cart: ' + error.message);
         }
     }
-
+    
     async findByIdWithProducts(cid) {
         return await Cart.findById(cid).populate("products.productId");
     }
-
+    
     async updateCart(cid, updatedProducts) {
         return await Cart.findByIdAndUpdate(cid, { products: updatedProducts }, { new: true });
     }
-
-
+    
+    // async updateCart(cartId, updateData) {
+    //     try {
+    //         console.log("Desde el dao : "+updateData)
+    //         const updatedCart = await Cart.findByIdAndUpdate(cartId, updateData, { new: true });
+    //         if (!updatedCart) {
+    //             throw new Error('Cart not found');
+    //         }
+    //         return updatedCart;
+    //     } catch (error) {
+    //         throw new Error('Error updating cart: ' + error.message);
+    //     }
+    // }
+    
 }
 
- 

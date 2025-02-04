@@ -1,5 +1,4 @@
 
-
 export default class ProductsRepository {
     constructor(dao) {
         this.dao = dao;
@@ -27,5 +26,9 @@ export default class ProductsRepository {
 
     async delete(id) {
         return await this.dao.delete(id);
+    }
+    
+    async getProductByIdToCart(cart,pid) {
+        return await this.dao.existeProductInCart(cart,pid);
     }
 }

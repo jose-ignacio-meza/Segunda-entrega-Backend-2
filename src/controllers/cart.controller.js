@@ -1,8 +1,10 @@
 import { isValidObjectId } from 'mongoose';
 import CartServices from '../services/cart.services.js';
+import productsServices from '../services/products.services.js';
 import {senMail} from '../utils.js'
 
 const cartService = new CartServices();
+const productService = new productsServices();
 
 export const getCarts = async (req, res) => {
     try {
@@ -52,10 +54,17 @@ export const createCart = async (req, res) => {
 };
 
 export const addProductCart = async (req, res) => {
+    const {cid} = req.params;
+    //Recibe un objeto llamado "product" que contiene "productId" y "quantity".
+    const {product} = req.body;
+    if(!cid || !product)
+        return res.status(400).send({status:"error", message:"Debe ingresar un id de cart y un objeto producto con su id y quantity"})
+    if(!isValidObjectId(cid))
+        return res.status(400).send({status:"error", message:"El id del cart es invalido"})
+    if(!isValidObjectId(product.productId))
+        return res.status(400).send({status:"error", message:"El id del producto es invalido"})
     try {
-        const {cid} = req.params;
-        const product = req.body;
-        const result = await cartService.addProductCart(cid,product);
+        const result = await cartService.addProductCart(cid, product);
         res.send(result);
     } catch (error) {
         res.status(500).send(error.message);
@@ -112,21 +121,33 @@ export const deleteProductCart = async (req, res) => {
 export const purchase = async (req, res) => {
     try {
         const { cid } = req.params;
+        //const cart = cartService.getCartById(cid);
         const purchaserEmail = req.user.email; // Asumiendo autenticación
 
         const result = await cartService.purchaseCart(cid, purchaserEmail);
 
-        let tittle='Ticket de compra';
-        let messagehtml=`<div><h1>Gracias por su compra</h1></div>`
-
-        await senMail(purchaserEmail,tittle,messagehtml);
-
-        return res.json({
+        let ticket= {
             status: "success",
             message: "Compra realizada",
             ticket: result.ticket || "No se generó ticket, todos los productos estaban sin stock suficiente",
             remainingProducts: result.remainingProducts
-        });
+        };
+        let tittle='Ticket de compra';
+        let messagehtml=`<div>
+                            <h1>Gracias por su compra</h1>
+                        </div>
+                        <div>
+                            <h2>Total: ${JSON.stringify(result.ticket.amount)}</h2>
+                        </div>`
+        return res.send(messagehtml);          
+        // await senMail(purchaserEmail,tittle,messagehtml);
+
+        // return res.json({
+        //     status: "success",
+        //     message: "Compra realizada",
+        //     ticket: result.ticket || "No se generó ticket, todos los productos estaban sin stock suficiente",
+        //     remainingProducts: result.remainingProducts
+        // });
     } catch (error) {
         return res.status(500).json({ status: "error", message: "Error en la compra: " + error.message });
     }

@@ -1,9 +1,13 @@
 import Cart from '../dao/cart.dao.js';
 import CartRepository from "../repositories/cart.repository.js";
+import Products from '../DAO/products.dao.js';
+import ProductsRepository from '../repositories/products.repository.js';
 import Ticket from "../models/ticket.model.js";
 
 const cartDAO = new Cart();
 const cartRepository = new CartRepository(cartDAO);
+const productDao = new Products();
+const productRepository = new ProductsRepository(productDao);
 
 export default class CartServices {
 
@@ -26,9 +30,37 @@ export default class CartServices {
         return result;
     }
 
-    async addProductCart(cid,product){
-        let result = await cartRepository.addProductCart(cid,product);
-        return result;
+    async addProductCart(cartId,product){
+        
+        const existeCart = await cartRepository.getCartById(cartId);
+        if (!existeCart) {
+            throw new Error("El carrito no existe");
+        }
+        
+        const existeProduct = await productRepository.getById(product.productId);
+        if (!existeProduct) {
+            throw new Error("El producto no existe");
+        }
+    
+        // 🔹 Buscamos el producto dentro del carrito
+        const productoEnCarrito = existeCart.products.find(p => 
+            p.productId.toString() === product.productId.toString()
+        );
+        
+        if (productoEnCarrito) {
+            // 🔹 Si el producto existe, sumamos la cantidad
+            productoEnCarrito.quantity += product.quantity;
+        } else {
+            // 🔹 Si el producto no está en el carrito, lo agregamos
+            existeCart.products.push({
+                productId: product.productId,
+                quantity: product.quantity
+            });
+        }
+
+        // 🔹 Guardamos los cambios en el carrito
+        return await cartRepository.updateCartProducts(cartId, existeCart.products);
+        
     }
 
     async updateCart(cid, cart) {
